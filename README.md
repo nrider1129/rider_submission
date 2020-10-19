@@ -1,6 +1,8 @@
 # rider_submission
 
-I was not successfully able to complete the task fully. With the steps below all necessary services, pods and ingress will successfully deploy and the kibana interface will become available at localhost. What is incomplete is kibana having access to the elasticsearch data. I am unsure if it was a cluster configuration issue or an application issue. I do feel as though this is a technology that I could pick up quickly. If you'd like to look at some of the configs that I found to not work, they are located under failed_attempts. I started with elasticsearch and kibana version 7.9.2, but my final product is in 6.8.4 as there was more information on the internet to help troubleshoot some of the problems.
+I was not successfully able to complete the task fully. With the steps below all necessary services, pods and ingress will successfully deploy and the kibana interface will become available at localhost. What is incomplete is kibana having access to the elasticsearch data. I am unsure if it was a cluster configuration issue or an application issue. I do feel as though this is a technology that I could pick up quickly. If you'd like to look at some of the configs that I found to not work, they are located under failed_attempts. I started with elasticsearch and kibana version 7.9.2, tried all the way down to 6.8.4, but my final product is in 7.4.0 as there was more information on the internet to help troubleshoot some of the problems.
+
+I have to give credit to https://github.com/srinisbook/kubernetes-elastic-stack as this was the basis for my final product and mostly used as my experience writing the yaml files is limited.
 
 In the spirit of wanting to give you something that is complete and functional, I have also commited some terraform that I wrote the night after our technical discussion. This terraform will deploy all the necessary infrastructure in AWS and also deploy an EKS cluster. I did this that night to attempt to gain a little knowledge about kubernetes before the assignment came. There are some instructions with it as well which I will include at the end.
 
@@ -24,9 +26,6 @@ Bring up the nginx ingress-controller
 Bring up elasticsearch  
 - kubectl apply -f ./elasticsearch  
 - I've found that waiting until elasticsearch pods are completely up tends to make the rest of the deployment go easier. I would wait until the pods are running to move on to the next step.
-
-Bring up logstash  
-- kubectl apply -f ./logstash
 
 Bring up filebeat  
 - kubectl apply -f ./filebeat
