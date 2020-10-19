@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: infra
+  labels:
+    service: kibana
+spec:
+  selector:
+    matchLabels:
+      run: kibana
+  template:
+    metadata:
+      labels:
+        run: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: kibana:7.9.2
+        env:
+        - name: ELASTICSEARCH_URL
+          value: http://10.244.0.5:9200
+        ports:
+        - containerPort: 5601
+          name: http
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: infra
+  labels:
+    app: kibana
+spec:
+  type: NodePort
+  selector:
+      run: kibana
+  ports:
+  - port: 80
+    targetPort: 5601

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-config
+  namespace: kube-logging
+data:
+  elasticsearch.yml: |
+    cluster.name: elasticsearch-logging
+    network.host: "0.0.0.0"
+    bootstrap.memory_lock: false
+    discovery.seed_hosts: "elasticsearch-logging.elasticsearch,elasticsearch-logging-1.elasticsearch,elasticsearch-logging-2.elasticsearch"
+    cluster.initial_master_nodes: "elasticsearch-logging,elasticsearch-logging-1,elasticsearch-logging-2"
+    #xpack.license.self_generated.type: basic
+    #xpack.monitoring.enabled: true
+    #xpack.security.enabled: true
