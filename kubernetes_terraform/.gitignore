@@ -2,3 +2,4 @@
 plugins
 output.txt
 terraform.exe
+terraform.tfstate
