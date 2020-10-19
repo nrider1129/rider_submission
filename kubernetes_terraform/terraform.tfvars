@@ -1,0 +1,7 @@
+cluster_vpc_cidr            = "10.0.0.0/24"
+pub1_cidr                   = "10.0.0.0/28"
+pub2_cidr                   = "10.0.0.16/28"
+priv1_cidr                  = "10.0.0.32/28"
+priv2_cidr                  = "10.0.0.48/28"
+availability_zone_alpha     = "us-east-1c"
+availability_zone_bravo     = "us-east-1d"
