@@ -1,1 +1,0 @@
-# Elastic stack on Kubernetes
