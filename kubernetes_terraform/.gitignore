@@ -2,4 +2,7 @@
 plugins
 output.txt
 terraform.exe
-terraform.tfstate
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
