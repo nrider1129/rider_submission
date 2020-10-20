@@ -13,7 +13,7 @@ data:
       - add_cloud_metadata:
 
     fields:
-      kubernetes_cluster: es-cluster
+      kubernetes_cluster: kind-control-plane
       env: development
  
     setup:

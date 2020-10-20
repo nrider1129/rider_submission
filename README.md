@@ -1,10 +1,10 @@
 # rider_submission
 
-I was not successfully able to complete the task fully. With the steps below all necessary services, pods and ingress will successfully deploy and the kibana interface will become available at localhost. What is incomplete is kibana having access to the elasticsearch data. I am unsure if it was a cluster configuration issue or an application issue. I do feel as though this is a technology that I could pick up quickly. If you'd like to look at some of the configs that I found to not work, they are located under failed_attempts. I started with elasticsearch and kibana version 7.9.2, tried all the way down to 6.8.4, but my final product is in 7.4.0 as there was more information on the internet to help troubleshoot some of the problems.
+I think I was able to finish the task. . With the steps below all necessary services, pods and ingress will successfully deploy and the kibana interface will become available at localhost. I am unsure if it is exactly correct though just due to my lack of experience with these technologies. I do feel as though this is a technology that I could pick up quickly and have learned a ton through this assignment.. If you'd like to look at some of the configs that I found to not work, they are located under failed_attempts. I started with elasticsearch and kibana version 7.9.2, tried all the way down to 6.8.4, but my final product is in 7.4.0 as there was more information on the internet to help troubleshoot some of the problems.
 
 I have to give credit to https://github.com/srinisbook/kubernetes-elastic-stack as this was the basis for my final product and mostly used as my experience writing the yaml files is limited.
 
-In the spirit of wanting to give you something that is complete and functional, I have also commited some terraform that I wrote the night after our technical discussion. This terraform will deploy all the necessary infrastructure in AWS and also deploy an EKS cluster. I did this that night to attempt to gain a little knowledge about kubernetes before the assignment came. There are some instructions with it as well which I will include at the end.
+In the spirit of wanting to give you something that I know is complete and functional, I have also commited some terraform that I wrote the night after our technical discussion. This terraform will deploy all the necessary infrastructure in AWS and also deploy an EKS cluster. I did this that night to attempt to gain a little knowledge about kubernetes before the assignment came. There are some instructions with it as well which I will include at the end.
 
 ### Cluster Instructions ###
 
@@ -21,7 +21,8 @@ Create cluster in Kind
 Bring up the nginx ingress-controller  
 - apply necessary patches, depending on version used, you may have to change the webhook validation address. When using the latest ingress-controller, only line 426, I had to change to admissionregistration.k8s.io/v1beta1 instead of admissionregistration.k8s.io/v1. Run the below commands to bring the controller up:  
 - Go to the rider_submission\kubernetes_cluster\kubernetes_config directory  
-- Copy and paste below command in:    - kubectl apply -f ./deploy.yaml
+- Copy and paste below command in:    
+- kubectl apply -f ./deploy.yaml
 
 Bring up elasticsearch  
 - kubectl apply -f ./elasticsearch  
@@ -37,7 +38,18 @@ Bring up kibana
 Lastly, once all services/pods are running configure nginx for resources in this namespace  
 - kubectl apply -f ./nginx-ingress
 
-After this step, everything should come up from an access perspective, elasticsearch data is not populating in kibana.
+From this point on I am not sure if what I was doing was correct and the internet had a ton of conflicting information on what to do here. I am also not sure if filebeat is even necessary after seeing the information in the index but decided to keep it in the submission.
+
+Create the index pattern
+- I saw that in the elasticsearch logs it was writing to the .kibana_1 index. This is an index that is available on kibana
+- After browsing to localhost the kibana page should come up. From there we will click on "Use Elasticsearch data"
+- Then I clicked on "Incluide systen indices" and in the index pattern box typed ".kibana_1*"
+- Hit next and in the time filter field I selected "I don't want to use a time filter"
+
+Viewing the logs
+- Once the pattern has been created I selected "Discover"
+- In the drop down under "+ Add filter" I selected the index pattern I just created ".kibana_1*" and from there the logs were searchable.
+
 
 ### Terraform Instructions ###
 
