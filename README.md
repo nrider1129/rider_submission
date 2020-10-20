@@ -19,23 +19,23 @@ Create cluster in Kind
 - Optional to --name to specify a name for your cluster. I left it blank so default is "kind"
 
 Bring up the nginx ingress-controller  
-- apply necessary patches, depending on version used, you may have to change the webhook validation address. When using the latest ingress-controller, only line 426, I had to change to admissionregistration.k8s.io/v1beta1 instead of admissionregistration.k8s.io/v1. Run the below commands to bring the controller up:  
+- apply necessary patches, depending on version used, you may have to change the webhook validation address. When using the latest ingress-controller, on line 426, you may  to change to admissionregistration.k8s.io/v1 to admissionregistration.k8s.io/v1beta1. Run the below commands to bring the controller up:  
 - Go to the rider_submission\kubernetes_cluster\kubernetes_config directory  
 - Copy and paste below command in:    
 - kubectl apply -f ./deploy.yaml
 
 Bring up elasticsearch  
 - kubectl apply -f ./elasticsearch  
-- I've found that waiting until elasticsearch pods are completely up tends to make the rest of the deployment go easier. I would wait until the pods are running to move on to the next step.
+- I've found that waiting until elasticsearch pods are completely up tends to make the rest of the deployment go easier. I would wait until the pods are running to move on to the next step. You can view where the pod is in deployment with kubectl get pods --namespace kube-system
 
 Bring up filebeat  
 - kubectl apply -f ./filebeat
 
 Bring up kibana  
-- I am not sure if this should matter or does matter. But I have been putting the cluster IP  of the elasticsearch cluster in the elasticsearch_url variable. To find this do a kubectl get services --namespace kube-system. Copy the ClusterIP and paste it into the value on line 23 of the kibana-deployment.yaml. Ensure the port is still at the end.  
 - kubectl apply -f ./kibana
 
-Lastly, once all services/pods are running configure nginx for resources in this namespace  
+Lastly, once all services/pods are running configure nginx for resources in this namespace. I found that running the deploy.yaml seems to make things work better, just not sure why.
+- kubectl apply -f ./deploy.yaml  
 - kubectl apply -f ./nginx-ingress
 
 From this point on I am not sure if what I was doing was correct and the internet had a ton of conflicting information on what to do here. I am also not sure if filebeat is even necessary after seeing the information in the index but decided to keep it in the submission.
@@ -43,7 +43,7 @@ From this point on I am not sure if what I was doing was correct and the interne
 Create the index pattern
 - I saw that in the elasticsearch logs it was writing to the .kibana_1 index. This is an index that is available on kibana
 - After browsing to localhost the kibana page should come up. From there we will click on "Use Elasticsearch data"
-- Then I clicked on "Incluide systen indices" and in the index pattern box typed ".kibana_1*"
+- Then I clicked on "Include system indices" and in the index pattern box typed ".kibana_1*"
 - Hit next and in the time filter field I selected "I don't want to use a time filter"
 
 Viewing the logs
